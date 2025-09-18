@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>School Management Dashboard</title>
     <!-- Theme CSS with CDN fallback -->
-    <link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}" onerror="this.href='https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css'">
-    <link rel="stylesheet" href="{{ asset('vendors/base/vendor.bundle.base.css') }}" onerror="this.href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/mdi/css/materialdesignicons.min.css') }}" onerror="this.href='https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css'">
+    <!-- <link rel="stylesheet" href="{{ asset('assets/vendors/base/vendor.bundle.base.css') }}" onerror="this.href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'"> -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" onerror="this.onerror=null; this.href='https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css'">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" onerror="this.href='https://via.placeholder.com/16'">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" onerror="this.href='https://via.placeholder.com/16'">
     <style>
         .overview-header {
             display: block;
@@ -73,7 +73,7 @@
         }
 
         .nav-link.active {
-            background-color: #00ff00;
+            background-color: #e9ecef;
             color: #fff;
             border-radius: 5px;
         }
@@ -85,8 +85,8 @@
         <!-- Header/Navbar -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo" href="#"><img src="{{ asset('images/logo.svg') }}" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="#"><img src="{{ asset('images/logo-mini.svg') }}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo" href="#"><img src="{{ asset('assets/images/logo1.svg') }}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="#"><img src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-stretch">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -95,7 +95,7 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown" aria-expanded="false">
-                            <img src="{{ asset('images/logo.svg') }}" alt="profile" style="width: 30px; height: 30px; border-radius: 50%;" />
+                            <img src="{{ asset('assets/images/logo.svg') }}" alt="profile" style="width: 30px; height: 30px; border-radius: 50%;" />
                             <span class="nav-profile-name">Profile</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
@@ -186,7 +186,7 @@
                         </div> -->
                         <span><strong>Name:</strong> {{ auth()->user()->first_name ?? 'User' }} {{ auth()->user()->last_name ?? '' }}</span>
                         <span><strong>Email:</strong> {{ auth()->user()->email ?? 'N/A' }}</span>
-                        <a href="#" class="btn btn-primary add-user-btn" id="addUserBtn">Add User</a>
+                        <a href="#" class="btn btn-primary add-user-btn" id="addUserBtn"> + Add New User</a>
                     </div>
                     <!-- Dynamic Form Container -->
                     <div id="dynamicFormContainer"></div>
@@ -208,9 +208,9 @@
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('vendors/base/vendor.bundle.base.js') }}" onerror="this.onerror=null;"></script>
+    <!-- <script src="{{ asset('assets/vendors/base/vendor.bundle.base.js') }}" onerror="this.onerror=null;"></script> -->
     <script src="{{ asset('assets/js/off-canvas.js') }}" onerror="this.onerror=null;"></script>
-    <script src="{{ asset('assets/js/hoverable-collapse.js') }}" onerror="this.onerror=null;"></script>
+    <!-- <script src="{{ asset('assets/js/hoverable-collapse.js') }}" onerror="this.onerror=null;"></script> -->
     <script src="{{ asset('assets/js/template.js') }}" onerror="this.onerror=null;"></script>
 
     <script>
@@ -356,6 +356,8 @@
                     console.log('Server response data:', data);
                     if (data.status === 'success') {
                         alert(data.message);
+                        // Prevent default redirect and update URL manually if needed
+                        window.history.pushState({}, document.title, '/dashboard'); // Replace with plain /dashboard
                         overviewHeader.classList.remove('hidden');
                         formTitle.classList.add('hidden');
                         dynamicFormContainer.style.display = 'none';
@@ -365,6 +367,7 @@
                     }
                 })
                 .catch(error => console.error('Error submitting form:', error));
+            return false; // Prevent default form submission
             // Fallback to check if response is HTML
             response.text().then(text => console.log('HTML fallback:', text));
         }
